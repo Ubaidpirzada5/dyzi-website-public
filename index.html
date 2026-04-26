@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dyzi Customization — Make It Uniquely Yours</title>
+<link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  :root{
+    --black:#0a0a0a;--white:#fafaf8;--cream:#f5f2eb;
+    --accent:#c8502a;--accent2:#e8a87c;
+    --text:#1a1a1a;--muted:#6b6b6b;--border:#e0ddd6;
+  }
+  body{font-family:'DM Sans',sans-serif;background:var(--white);color:var(--text);overflow-x:hidden}
+  h1,h2,h3,h4{font-family:'Clash Display',sans-serif}
+
+  nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(250,250,248,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 5%;height:64px;display:flex;align-items:center;justify-content:space-between}
+  .logo{font-family:'Clash Display',sans-serif;font-size:22px;font-weight:700;color:var(--black);letter-spacing:-0.5px;text-decoration:none}
+  .logo span{color:var(--accent)}
+  .nav-links{display:flex;gap:32px;list-style:none}
+  .nav-links a{text-decoration:none;color:var(--muted);font-size:14px;font-weight:500;transition:color 0.2s;cursor:pointer}
+  .nav-links a:hover{color:var(--black)}
+  .nav-cta{background:var(--black);color:var(--white);border:none;padding:10px 22px;border-radius:6px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;cursor:pointer;transition:background 0.2s}
+  .nav-cta:hover{background:var(--accent)}
+
+  .page{display:none;min-height:100vh;padding-top:64px}
+  .page.active{display:block}
+
+  .hero{padding:100px 5% 80px;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;max-width:1200px;margin:0 auto}
+  .hero-badge{display:inline-block;background:var(--cream);color:var(--accent);font-size:12px;font-weight:500;letter-spacing:1px;text-transform:uppercase;padding:6px 14px;border-radius:20px;margin-bottom:24px;border:1px solid var(--accent2)}
+  .hero h1{font-size:clamp(40px,5vw,64px);line-height:1.05;letter-spacing:-2px;color:var(--black);margin-bottom:20px}
+  .hero h1 em{font-style:normal;color:var(--accent)}
+  .hero p{font-size:17px;color:var(--muted);line-height:1.7;margin-bottom:36px;max-width:460px}
+  .hero-btns{display:flex;gap:14px;flex-wrap:wrap}
+  .btn-primary{background:var(--black);color:var(--white);padding:14px 28px;border-radius:8px;border:none;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:500;cursor:pointer;transition:all 0.2s}
+  .btn-primary:hover{background:var(--accent);transform:translateY(-1px)}
+  .btn-outline{background:transparent;color:var(--black);padding:14px 28px;border-radius:8px;border:1.5px solid var(--border);font-family:'DM Sans',sans-serif;font-size:15px;font-weight:500;cursor:pointer;transition:all 0.2s}
+  .btn-outline:hover{border-color:var(--black)}
+  .hero-visual{position:relative;display:flex;justify-content:center}
+  .hero-product-card{background:var(--cream);border-radius:20px;padding:40px;text-align:center;position:relative;overflow:hidden;width:100%;max-width:380px}
+  .hero-product-card::before{content:'';position:absolute;top:-40px;right:-40px;width:160px;height:160px;background:var(--accent2);opacity:0.3;border-radius:50%}
+  .hero-mug{font-size:80px;margin-bottom:12px;display:block}
+  .floating-tag{position:absolute;background:var(--white);border:1px solid var(--border);border-radius:10px;padding:8px 14px;font-size:12px;font-weight:500;box-shadow:0 4px 16px rgba(0,0,0,0.08)}
+  .ft1{top:20px;left:10px;color:var(--accent)}
+  .ft2{bottom:30px;right:10px;color:var(--black)}
+  .stats-row{display:flex;gap:40px;margin-top:48px;padding-top:40px;border-top:1px solid var(--border)}
+  .stat-num{font-family:'Clash Display',sans-serif;font-size:28px;font-weight:700;color:var(--black)}
+  .stat-label{font-size:13px;color:var(--muted);margin-top:2px}
+
+  .section{padding:80px 5%;max-width:1200px;margin:0 auto}
+  .section-header{text-align:center;margin-bottom:56px}
+  .section-header h2{font-size:clamp(28px,4vw,42px);letter-spacing:-1px;margin-bottom:12px}
+  .section-header p{color:var(--muted);font-size:16px}
+  .products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:20px}
+  .product-card{background:var(--white);border:1.5px solid var(--border);border-radius:16px;overflow:hidden;cursor:pointer;transition:all 0.25s;position:relative}
+  .product-card:hover{border-color:var(--accent);transform:translateY(-4px);box-shadow:0 12px 32px rgba(200,80,42,0.12)}
+  .product-img{background:var(--cream);height:180px;display:flex;align-items:center;justify-content:center;font-size:64px;position:relative}
+  .product-badge{position:absolute;top:10px;right:10px;background:var(--accent);color:white;font-size:10px;font-weight:600;padding:3px 8px;border-radius:4px;letter-spacing:0.5px}
+  .product-info{padding:16px}
+  .product-info h3{font-size:16px;font-weight:600;margin-bottom:4px}
+  .product-info p{font-size:13px;color:var(--muted)}
+  .product-info .price{font-size:14px;color:var(--accent);font-weight:600;margin-top:8px}
+  .customize-btn{width:100%;margin-top:12px;background:var(--black);color:white;border:none;padding:10px;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer;transition:background 0.2s}
+  .customize-btn:hover{background:var(--accent)}
+
+  .hiw-bg{background:var(--cream)}
+  .steps-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:32px}
+  .step{text-align:center;padding:32px 24px}
+  .step-num{width:48px;height:48px;background:var(--black);color:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Clash Display',sans-serif;font-size:18px;font-weight:700;margin:0 auto 20px}
+  .step h3{font-size:18px;margin-bottom:8px}
+  .step p{font-size:14px;color:var(--muted);line-height:1.7}
+
+  .customizer-wrap{max-width:1100px;margin:0 auto;padding:40px 5%}
+  .customizer-wrap h2{font-size:32px;letter-spacing:-1px;margin-bottom:8px}
+  .customizer-wrap .sub{color:var(--muted);margin-bottom:36px}
+  .customizer-layout{display:grid;grid-template-columns:1fr 420px;gap:40px;align-items:start}
+  .preview-panel{background:var(--cream);border-radius:20px;padding:40px;text-align:center;position:sticky;top:80px}
+  .preview-panel h4{font-size:13px;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:20px}
+  .product-preview{position:relative;display:inline-block;margin:0 auto}
+  .preview-base{font-size:100px;display:block;filter:drop-shadow(0 8px 16px rgba(0,0,0,0.1))}
+  .preview-overlay{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;pointer-events:none;max-width:80px}
+  .preview-text{font-size:11px;font-weight:700;color:white;text-shadow:0 1px 3px rgba(0,0,0,0.5);word-break:break-word;line-height:1.2;margin-top:4px}
+  .preview-logo{max-width:50px;max-height:40px;object-fit:contain;filter:drop-shadow(0 1px 2px rgba(0,0,0,0.3))}
+  .controls-panel{display:flex;flex-direction:column;gap:24px}
+  .ctrl-group{background:var(--white);border:1.5px solid var(--border);border-radius:14px;padding:20px}
+  .ctrl-group label{display:block;font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;color:var(--muted);margin-bottom:12px}
+  .product-tabs{display:flex;gap:8px;flex-wrap:wrap}
+  .ptab{padding:8px 16px;border:1.5px solid var(--border);border-radius:8px;cursor:pointer;font-size:13px;font-weight:500;transition:all 0.2s;background:white;font-family:'DM Sans',sans-serif}
+  .ptab.active,.ptab:hover{background:var(--black);color:white;border-color:var(--black)}
+  .ctrl-input{width:100%;padding:10px 14px;border:1.5px solid var(--border);border-radius:8px;font-family:'DM Sans',sans-serif;font-size:14px;background:white;color:var(--text);outline:none;transition:border-color 0.2s}
+  .ctrl-input:focus{border-color:var(--accent)}
+  .font-opts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .font-opt{padding:10px;border:1.5px solid var(--border);border-radius:8px;cursor:pointer;font-size:12px;text-align:center;transition:all 0.2s;background:white}
+  .font-opt.active,.font-opt:hover{border-color:var(--accent);background:rgba(200,80,42,0.04)}
+  .color-swatches{display:flex;gap:8px;flex-wrap:wrap}
+  .swatch{width:32px;height:32px;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:all 0.2s;position:relative}
+  .swatch.active,.swatch:hover{transform:scale(1.15)}
+  .swatch.active::after{content:'✓';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:white;font-size:12px;font-weight:700}
+  .upload-zone{border:2px dashed var(--border);border-radius:10px;padding:24px;text-align:center;cursor:pointer;transition:all 0.2s}
+  .upload-zone:hover{border-color:var(--accent);background:rgba(200,80,42,0.02)}
+  .upload-zone p{font-size:13px;color:var(--muted);margin-top:8px}
+  .upload-zone input{display:none}
+  .design-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+  .design-opt{background:var(--cream);border-radius:8px;padding:12px;text-align:center;cursor:pointer;border:2px solid transparent;transition:all 0.2s;font-size:22px}
+  .design-opt:hover,.design-opt.active{border-color:var(--accent);background:rgba(200,80,42,0.05)}
+  .order-btn{width:100%;background:var(--black);color:white;border:none;padding:16px;border-radius:10px;font-family:'Clash Display',sans-serif;font-size:16px;font-weight:600;cursor:pointer;transition:all 0.2s;letter-spacing:0.5px}
+  .order-btn:hover{background:var(--accent);transform:translateY(-1px)}
+
+  .order-wrap{max-width:700px;margin:0 auto;padding:50px 5%}
+  .order-wrap h2{font-size:36px;letter-spacing:-1px;margin-bottom:8px}
+  .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:28px}
+  .form-full{grid-column:1/-1}
+  .field-label{display:block;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;color:var(--muted);margin-bottom:6px}
+  .field-input,.field-select,.field-textarea{width:100%;padding:12px 16px;border:1.5px solid var(--border);border-radius:10px;font-family:'DM Sans',sans-serif;font-size:14px;background:white;color:var(--text);outline:none;transition:border-color 0.2s}
+  .field-input:focus,.field-select:focus,.field-textarea:focus{border-color:var(--accent)}
+  .field-textarea{min-height:100px;resize:vertical}
+  .order-summary{background:var(--cream);border-radius:14px;padding:24px;margin:24px 0;border:1.5px solid var(--border)}
+  .order-summary h4{font-size:14px;font-weight:600;margin-bottom:14px}
+  .summary-row{display:flex;justify-content:space-between;font-size:14px;padding:4px 0;color:var(--muted)}
+  .summary-row.total{color:var(--text);font-weight:600;font-size:15px;border-top:1px solid var(--border);padding-top:10px;margin-top:6px}
+  .submit-btn{width:100%;background:var(--accent);color:white;border:none;padding:16px;border-radius:10px;font-family:'Clash Display',sans-serif;font-size:17px;font-weight:600;cursor:pointer;transition:all 0.2s;letter-spacing:0.5px;margin-top:8px}
+  .submit-btn:hover{background:#a03e1f;transform:translateY(-1px)}
+
+  .contact-wrap{max-width:1000px;margin:0 auto;padding:60px 5%}
+  .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start}
+  .contact-info h2{font-size:36px;letter-spacing:-1px;margin-bottom:16px}
+  .contact-info p{color:var(--muted);line-height:1.7;margin-bottom:32px}
+  .contact-item{display:flex;align-items:flex-start;gap:14px;margin-bottom:24px}
+  .ci-icon{width:40px;height:40px;background:var(--cream);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+  .ci-label{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px}
+  .ci-val{font-size:14px;font-weight:500;margin-top:2px}
+  .contact-form{background:var(--cream);border-radius:20px;padding:36px}
+  .contact-form h3{font-size:20px;margin-bottom:24px}
+  .success-msg{display:none;background:#d4edda;border:1px solid #c3e6cb;border-radius:10px;padding:16px;text-align:center;color:#155724;font-size:14px;font-weight:500;margin-top:16px}
+
+  .toast{position:fixed;bottom:24px;right:24px;background:var(--black);color:white;padding:14px 20px;border-radius:10px;font-size:14px;font-weight:500;z-index:999;transform:translateY(80px);opacity:0;transition:all 0.3s;pointer-events:none}
+  .toast.show{transform:translateY(0);opacity:1}
+
+  footer{background:var(--black);color:var(--white);padding:48px 5% 32px;margin-top:80px}
+  .footer-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:40px}
+  .footer-brand p{color:#888;font-size:13px;margin-top:12px;line-height:1.7;max-width:240px}
+  .footer-col h5{font-size:12px;text-transform:uppercase;letter-spacing:1px;color:#888;margin-bottom:16px}
+  .footer-col a{display:block;color:#ccc;text-decoration:none;font-size:13px;margin-bottom:8px;transition:color 0.2s;cursor:pointer}
+  .footer-col a:hover{color:white}
+  .footer-bottom{border-top:1px solid #222;padding-top:24px;display:flex;justify-content:space-between;align-items:center}
+  .footer-bottom p{font-size:12px;color:#666}
+
+  @media(max-width:768px){
+    .hero{grid-template-columns:1fr;gap:40px}
+    .hero-visual{order:-1}
+    .steps-grid{grid-template-columns:1fr}
+    .customizer-layout{grid-template-columns:1fr}
+    .preview-panel{position:static}
+    .contact-grid{grid-template-columns:1fr}
+    .footer-top{grid-template-columns:1fr 1fr}
+    .nav-links{display:none}
+    .form-grid{grid-template-columns:1fr}
+    .form-full{grid-column:1}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo" onclick="showPage('home')" style="cursor:pointer">Dy<span>zi</span></div>
+  <ul class="nav-links">
+    <li><a onclick="showPage('home')">Home</a></li>
+    <li><a onclick="showPage('home');setTimeout(()=>document.getElementById('products').scrollIntoView({behavior:'smooth'}),50)">Products</a></li>
+    <li><a onclick="showPage('customize')">Customize</a></li>
+    <li><a onclick="showPage('contact')">Contact</a></li>
+  </ul>
+  <button class="nav-cta" onclick="showPage('customize')">Start Customizing</button>
+</nav>
+
+<!-- HOME PAGE -->
+<div id="page-home" class="page active">
+  <div class="hero">
+    <div>
+      <span class="hero-badge">✦ Premium Custom Products</span>
+      <h1>Make It<br><em>Uniquely</em><br>Yours</h1>
+      <p>Upload your logo, pick a design, add your text — we'll craft stunning custom products delivered to your door.</p>
+      <div class="hero-btns">
+        <button class="btn-primary" onclick="showPage('customize')">Start Customizing</button>
+        <button class="btn-outline" onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})">Browse Products</button>
+      </div>
+      <div class="stats-row">
+        <div class="stat-item"><div class="stat-num">5,000+</div><div class="stat-label">Happy customers</div></div>
+        <div class="stat-item"><div class="stat-num">48hr</div><div class="stat-label">Turnaround</div></div>
+        <div class="stat-item"><div class="stat-num">100%</div><div class="stat-label">Satisfaction</div></div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-product-card">
+        <span class="floating-tag ft1">✦ Upload Your Logo</span>
+        <span class="hero-mug">☕</span>
+        <p style="font-family:'Clash Display',sans-serif;font-size:13px;color:var(--muted)">Live preview as you design</p>
+        <span class="floating-tag ft2">Ships in 48hrs →</span>
+      </div>
+    </div>
+  </div>
+
+  <div id="products" class="section">
+    <div class="section-header">
+      <h2>Our Product Range</h2>
+      <p>Choose a product and start customizing in seconds</p>
+    </div>
+    <div class="products-grid">
+      <div class="product-card" onclick="openCustomizer('Mug','☕')">
+        <div class="product-img">☕<span class="product-badge">Popular</span></div>
+        <div class="product-info"><h3>Custom Mug</h3><p>11oz ceramic, dishwasher safe</p><div class="price">From £8.99</div><button class="customize-btn">Customize →</button></div>
+      </div>
+      <div class="product-card" onclick="openCustomizer('T-Shirt','👕')">
+        <div class="product-img">👕</div>
+        <div class="product-info"><h3>T-Shirt</h3><p>100% cotton, all sizes</p><div class="price">From £14.99</div><button class="customize-btn">Customize →</button></div>
+      </div>
+      <div class="product-card" onclick="openCustomizer('Apron','🧑‍🍳')">
+        <div class="product-img">🧑‍🍳</div>
+        <div class="product-info"><h3>Apron</h3><p>Durable poly-cotton blend</p><div class="price">From £12.99</div><button class="customize-btn">Customize →</button></div>
+      </div>
+      <div class="product-card" onclick="openCustomizer('Hanger','🪝')">
+        <div class="product-img">🪝<span class="product-badge">New</span></div>
+        <div class="product-info"><h3>Custom Hanger</h3><p>Branded wooden hangers</p><div class="price">From £3.99</div><button class="customize-btn">Customize →</button></div>
+      </div>
+      <div class="product-card" onclick="openCustomizer('Tote Bag','🛍️')">
+        <div class="product-img">🛍️</div>
+        <div class="product-info"><h3>Tote Bag</h3><p>Eco-friendly canvas</p><div class="price">From £9.99</div><button class="customize-btn">Customize →</button></div>
+      </div>
+      <div class="product-card" style="border-style:dashed;cursor:default">
+        <div class="product-img" style="font-size:40px;color:var(--muted)">+</div>
+        <div class="product-info"><h3 style="color:var(--muted)">More Coming Soon</h3><p>New products launching soon</p><div class="price" style="color:var(--muted)">Stay tuned</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hiw-bg">
+    <div class="section">
+      <div class="section-header"><h2>How It Works</h2><p>Three simple steps to your perfect custom product</p></div>
+      <div class="steps-grid">
+        <div class="step"><div class="step-num">1</div><h3>Choose Your Product</h3><p>Browse our range of premium products — mugs, tees, aprons, hangers and more. Pick the one that fits your need.</p></div>
+        <div class="step"><div class="step-num">2</div><h3>Design & Customize</h3><p>Upload a logo or photo, choose from our design library, enter your custom text. See a live preview instantly.</p></div>
+        <div class="step"><div class="step-num">3</div><h3>Submit & Receive</h3><p>Place your enquiry or order. Our team crafts your product and ships it to you within 48 hours.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="logo" style="color:white">Dy<span style="color:var(--accent2)">zi</span></div>
+        <p>Premium custom products crafted with love and precision for businesses and individuals alike.</p>
+      </div>
+      <div class="footer-col"><h5>Products</h5><a onclick="openCustomizer('Mug','☕')">Custom Mugs</a><a onclick="openCustomizer('T-Shirt','👕')">T-Shirts</a><a onclick="openCustomizer('Apron','🧑‍🍳')">Aprons</a><a onclick="openCustomizer('Hanger','🪝')">Hangers</a></div>
+      <div class="footer-col"><h5>Company</h5><a href="#">About Us</a><a onclick="showPage('contact')">Contact</a><a href="#">Blog</a><a href="#">Bulk Orders</a></div>
+      <div class="footer-col"><h5>Support</h5><a href="#">FAQ</a><a href="#">Shipping</a><a href="#">Returns</a><a href="#">Privacy Policy</a></div>
+    </div>
+    <div class="footer-bottom"><p>© 2025 Dyzi Customization. All rights reserved.</p><p>Made with ♥ for your brand</p></div>
+  </footer>
+</div>
+
+<!-- CUSTOMIZE PAGE -->
+<div id="page-customize" class="page">
+  <div class="customizer-wrap">
+    <h2>Customize Your Product</h2>
+    <p class="sub">Design in real-time — see your creation come to life instantly.</p>
+    <div class="customizer-layout">
+      <div class="controls-panel">
+        <div class="ctrl-group">
+          <label>Select Product</label>
+          <div class="product-tabs">
+            <button class="ptab active" onclick="selectProduct('Mug','☕',this)">☕ Mug</button>
+            <button class="ptab" onclick="selectProduct('T-Shirt','👕',this)">👕 T-Shirt</button>
+            <button class="ptab" onclick="selectProduct('Apron','🧑‍🍳',this)">🧑‍🍳 Apron</button>
+            <button class="ptab" onclick="selectProduct('Hanger','🪝',this)">🪝 Hanger</button>
+            <button class="ptab" onclick="selectProduct('Tote Bag','🛍️',this)">🛍️ Tote Bag</button>
+          </div>
+        </div>
+        <div class="ctrl-group">
+          <label>Your Text</label>
+          <input type="text" class="ctrl-input" id="customText" placeholder="e.g. Best Dad Ever" oninput="updatePreview()" maxlength="40">
+          <div class="font-opts" style="margin-top:10px">
+            <div class="font-opt active" onclick="setFont('bold',this)"><strong>Bold</strong></div>
+            <div class="font-opt" onclick="setFont('italic',this)"><em>Italic</em></div>
+            <div class="font-opt" onclick="setFont('serif',this)" style="font-family:serif">Classic</div>
+            <div class="font-opt" onclick="setFont('mono',this)" style="font-family:monospace">Mono</div>
+          </div>
+        </div>
+        <div class="ctrl-group">
+          <label>Text Colour</label>
+          <div class="color-swatches">
+            <div class="swatch active" style="background:#ffffff;border:2px solid #ddd" onclick="setColor('#ffffff',this)"></div>
+            <div class="swatch" style="background:#1a1a1a" onclick="setColor('#1a1a1a',this)"></div>
+            <div class="swatch" style="background:#c8502a" onclick="setColor('#c8502a',this)"></div>
+            <div class="swatch" style="background:#2563eb" onclick="setColor('#2563eb',this)"></div>
+            <div class="swatch" style="background:#16a34a" onclick="setColor('#16a34a',this)"></div>
+            <div class="swatch" style="background:#f59e0b" onclick="setColor('#f59e0b',this)"></div>
+            <div class="swatch" style="background:#db2777" onclick="setColor('#db2777',this)"></div>
+          </div>
+        </div>
+        <div class="ctrl-group">
+          <label>Upload Logo / Photo</label>
+          <div class="upload-zone" onclick="document.getElementById('logoUpload').click()">
+            <div style="font-size:28px">📁</div>
+            <p>Click to upload image<br><span style="font-size:11px">PNG, JPG, SVG — max 5MB</span></p>
+            <input type="file" id="logoUpload" accept="image/*" onchange="handleUpload(event)">
+          </div>
+          <div id="uploadPreview" style="display:none;margin-top:10px;text-align:center">
+            <img id="uploadedImg" style="max-height:60px;border-radius:6px">
+            <button onclick="clearUpload()" style="display:block;margin:8px auto;background:none;border:1px solid var(--border);border-radius:6px;padding:4px 12px;cursor:pointer;font-size:12px;color:var(--muted);font-family:'DM Sans',sans-serif">Remove</button>
+          </div>
+        </div>
+        <div class="ctrl-group">
+          <label>Or Choose a Design</label>
+          <div class="design-grid">
+            <div class="design-opt" onclick="selectDesign('⭐',this)">⭐</div>
+            <div class="design-opt" onclick="selectDesign('❤️',this)">❤️</div>
+            <div class="design-opt" onclick="selectDesign('🌿',this)">🌿</div>
+            <div class="design-opt" onclick="selectDesign('🔥',this)">🔥</div>
+            <div class="design-opt" onclick="selectDesign('🎨',this)">🎨</div>
+            <div class="design-opt" onclick="selectDesign('⚡',this)">⚡</div>
+            <div class="design-opt" onclick="selectDesign('🌊',this)">🌊</div>
+            <div class="design-opt" onclick="selectDesign('🏆',this)">🏆</div>
+            <div class="design-opt" onclick="selectDesign('✦',this)">✦</div>
+          </div>
+        </div>
+        <button class="order-btn" onclick="goToOrder()">Proceed to Order →</button>
+      </div>
+
+      <div class="preview-panel">
+        <h4>Live Preview</h4>
+        <div class="product-preview">
+          <span class="preview-base" id="previewEmoji">☕</span>
+          <div class="preview-overlay">
+            <img id="previewLogo" class="preview-logo" style="display:none">
+            <div id="previewDesign" style="font-size:20px;display:none"></div>
+            <div class="preview-text" id="previewText"></div>
+          </div>
+        </div>
+        <div style="margin-top:24px;padding-top:20px;border-top:1px solid var(--border)">
+          <div style="display:flex;justify-content:space-between;margin-bottom:8px">
+            <span style="font-size:13px;color:var(--muted)">Product</span>
+            <span style="font-size:13px;font-weight:600" id="previewProductName">Custom Mug</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:16px">
+            <span style="font-size:13px;color:var(--muted)">Starting price</span>
+            <span style="font-size:13px;font-weight:600;color:var(--accent)" id="previewPrice">£8.99</span>
+          </div>
+          <button class="order-btn" onclick="goToOrder()">Order This →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ORDER PAGE -->
+<div id="page-order" class="page">
+  <div class="order-wrap">
+    <h2>Submit Your Order</h2>
+    <p style="color:var(--muted);margin-bottom:4px">Fill in your details and we'll be in touch within 24 hours.</p>
+    <div class="order-summary">
+      <h4>Order Summary</h4>
+      <div class="summary-row"><span>Product</span><span id="orderProduct">Custom Mug</span></div>
+      <div class="summary-row"><span>Custom text</span><span id="orderText">—</span></div>
+      <div class="summary-row"><span>Logo / design</span><span id="orderDesign">—</span></div>
+      <div class="summary-row total"><span>Estimated from</span><span id="orderPrice">£8.99</span></div>
+    </div>
+    <div class="form-grid">
+      <div><label class="field-label">First Name *</label><input type="text" class="field-input" placeholder="Jane"></div>
+      <div><label class="field-label">Last Name *</label><input type="text" class="field-input" placeholder="Smith"></div>
+      <div><label class="field-label">Email *</label><input type="email" class="field-input" placeholder="jane@example.com"></div>
+      <div><label class="field-label">Phone</label><input type="tel" class="field-input" placeholder="+44 7700 900000"></div>
+      <div class="form-full"><label class="field-label">Delivery Address *</label><input type="text" class="field-input" placeholder="123 High Street, London, EC1A 1BB"></div>
+      <div><label class="field-label">Quantity *</label><select class="field-select"><option>1 unit</option><option>2–5 units</option><option>6–20 units</option><option>21–50 units</option><option>50+ units (bulk)</option></select></div>
+      <div><label class="field-label">Deadline</label><input type="date" class="field-input"></div>
+      <div class="form-full"><label class="field-label">Additional Notes</label><textarea class="field-textarea" placeholder="Any specific requirements, colour preferences, or special instructions..."></textarea></div>
+    </div>
+    <button class="submit-btn" onclick="submitOrder()">Submit Enquiry →</button>
+    <p style="font-size:12px;color:var(--muted);margin-top:12px;text-align:center">We'll confirm your order and pricing within 24 hours via email.</p>
+  </div>
+</div>
+
+<!-- CONTACT PAGE -->
+<div id="page-contact" class="page">
+  <div class="contact-wrap">
+    <div class="contact-grid">
+      <div class="contact-info">
+        <h2>Get In Touch</h2>
+        <p>Have a question about bulk orders, custom requirements, or just want to say hello? We're here to help.</p>
+        <div class="contact-item"><div class="ci-icon">📧</div><div><div class="ci-label">Email</div><div class="ci-val">hello@dyzi.co.uk</div></div></div>
+        <div class="contact-item"><div class="ci-icon">📞</div><div><div class="ci-label">Phone</div><div class="ci-val">+44 20 1234 5678</div></div></div>
+        <div class="contact-item"><div class="ci-icon">📍</div><div><div class="ci-label">Location</div><div class="ci-val">London, United Kingdom</div></div></div>
+        <div class="contact-item"><div class="ci-icon">🕐</div><div><div class="ci-label">Hours</div><div class="ci-val">Mon–Fri, 9am–6pm GMT</div></div></div>
+      </div>
+      <div class="contact-form">
+        <h3>Send a Message</h3>
+        <div style="display:flex;flex-direction:column;gap:14px">
+          <div><label class="field-label">Your Name</label><input type="text" class="field-input" id="cName" placeholder="Jane Smith"></div>
+          <div><label class="field-label">Email</label><input type="email" class="field-input" id="cEmail" placeholder="jane@example.com"></div>
+          <div><label class="field-label">Subject</label><select class="field-select" id="cSubject"><option>General enquiry</option><option>Bulk order quote</option><option>Order support</option><option>Custom design help</option><option>Other</option></select></div>
+          <div><label class="field-label">Message</label><textarea class="field-textarea" id="cMsg" placeholder="Tell us how we can help..."></textarea></div>
+          <button class="submit-btn" onclick="sendContact()">Send Message →</button>
+          <div class="success-msg" id="contactSuccess">✓ Message sent! We'll get back to you within 24 hours.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+var state = {
+  product:'Mug', emoji:'☕', text:'', color:'#ffffff',
+  font:'bold', design:null, logoUrl:null,
+  prices:{'Mug':'£8.99','T-Shirt':'£14.99','Apron':'£12.99','Hanger':'£3.99','Tote Bag':'£9.99'}
+};
+
+function showPage(p){
+  document.querySelectorAll('.page').forEach(function(el){el.classList.remove('active');});
+  document.getElementById('page-'+p).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+function showToast(msg){
+  var t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  setTimeout(function(){t.classList.remove('show');},3000);
+}
+
+function openCustomizer(prod,emoji){
+  state.product=prod;state.emoji=emoji;
+  showPage('customize');
+  document.getElementById('previewEmoji').textContent=emoji;
+  document.getElementById('previewProductName').textContent='Custom '+prod;
+  document.getElementById('previewPrice').textContent=state.prices[prod]||'—';
+  document.querySelectorAll('.ptab').forEach(function(b){
+    b.classList.toggle('active',b.textContent.includes(prod));
+  });
+}
+
+function selectProduct(prod,emoji,btn){
+  document.querySelectorAll('.ptab').forEach(function(b){b.classList.remove('active');});
+  btn.classList.add('active');
+  state.product=prod;state.emoji=emoji;
+  document.getElementById('previewEmoji').textContent=emoji;
+  document.getElementById('previewProductName').textContent='Custom '+prod;
+  document.getElementById('previewPrice').textContent=state.prices[prod]||'—';
+}
+
+function updatePreview(){
+  var t=document.getElementById('customText').value;
+  state.text=t;
+  var pt=document.getElementById('previewText');
+  pt.textContent=t;
+  pt.style.color=state.color;
+  if(state.font==='bold'){pt.style.fontWeight='700';pt.style.fontStyle='normal';pt.style.fontFamily='sans-serif';}
+  else if(state.font==='italic'){pt.style.fontStyle='italic';pt.style.fontWeight='400';pt.style.fontFamily='sans-serif';}
+  else if(state.font==='serif'){pt.style.fontFamily='Georgia,serif';pt.style.fontStyle='normal';pt.style.fontWeight='400';}
+  else if(state.font==='mono'){pt.style.fontFamily='monospace';pt.style.fontStyle='normal';pt.style.fontWeight='400';}
+}
+
+function setFont(f,el){
+  state.font=f;
+  document.querySelectorAll('.font-opt').forEach(function(e){e.classList.remove('active');});
+  el.classList.add('active');
+  updatePreview();
+}
+
+function setColor(c,el){
+  state.color=c;
+  document.querySelectorAll('.swatch').forEach(function(e){e.classList.remove('active');});
+  el.classList.add('active');
+  updatePreview();
+}
+
+function handleUpload(e){
+  var file=e.target.files[0];
+  if(!file)return;
+  var reader=new FileReader();
+  reader.onload=function(ev){
+    state.logoUrl=ev.target.result;
+    document.getElementById('uploadedImg').src=ev.target.result;
+    document.getElementById('uploadPreview').style.display='block';
+    document.getElementById('previewLogo').src=ev.target.result;
+    document.getElementById('previewLogo').style.display='block';
+    document.getElementById('previewDesign').style.display='none';
+    state.design=null;
+    document.querySelectorAll('.design-opt').forEach(function(d){d.classList.remove('active');});
+    showToast('Logo uploaded successfully!');
+  };
+  reader.readAsDataURL(file);
+}
+
+function clearUpload(){
+  state.logoUrl=null;
+  document.getElementById('uploadPreview').style.display='none';
+  document.getElementById('previewLogo').style.display='none';
+  document.getElementById('logoUpload').value='';
+}
+
+function selectDesign(d,el){
+  document.querySelectorAll('.design-opt').forEach(function(e){e.classList.remove('active');});
+  el.classList.add('active');
+  state.design=d;
+  clearUpload();
+  var pd=document.getElementById('previewDesign');
+  pd.textContent=d;pd.style.display='block';
+  document.getElementById('previewLogo').style.display='none';
+}
+
+function goToOrder(){
+  document.getElementById('orderProduct').textContent='Custom '+state.product;
+  document.getElementById('orderText').textContent=state.text||'—';
+  document.getElementById('orderDesign').textContent=state.logoUrl?'Logo uploaded':state.design||'—';
+  document.getElementById('orderPrice').textContent=state.prices[state.product]||'—';
+  showPage('order');
+}
+
+function submitOrder(){
+  showToast('✓ Order submitted! We\'ll contact you within 24hrs.');
+  setTimeout(function(){showPage('home');},1500);
+}
+
+function sendContact(){
+  var n=document.getElementById('cName').value;
+  var e=document.getElementById('cEmail').value;
+  var m=document.getElementById('cMsg').value;
+  if(!n||!e||!m){showToast('Please fill all required fields');return;}
+  document.getElementById('contactSuccess').style.display='block';
+  showToast('Message sent!');
+}
+</script>
+</body>
+</html>
